@@ -220,7 +220,7 @@ const ConversationsSection = memo(() => {
   return (
     <ProjectNamesProvider data={projectsData} isPending={!projectsLoaded && !projectsFailed}>
       <div
-        className="flex h-full min-h-0 flex-col overflow-hidden pt-2 pb-3"
+        className="flex h-full min-h-0 flex-col overflow-hidden pt-2 pb-2"
         role="region"
         aria-label={localize('com_ui_chat_history')}
       >
@@ -286,6 +286,21 @@ const ConversationsSection = memo(() => {
               hasMoreBelow ? 'opacity-100' : 'opacity-0',
             )}
           />
+        </div>
+
+        {/* Brand Logo - MobiFone (Cố định ở dưới cùng, không bị cuộn dọc) */}
+        <div className="flex shrink-0 items-center justify-center px-3 pt-2 pb-1">
+          <a
+            href="/c/new"
+            aria-label="MobiFone"
+            className="inline-flex items-center justify-center transition-opacity hover:opacity-85 focus:outline-none"
+          >
+            <img
+              src="/assets/MobiFone_logo.svg"
+              alt="MobiFone"
+              className="h-[20px] w-auto max-w-[130px] object-contain select-none"
+            />
+          </a>
         </div>
       </div>
     </ProjectNamesProvider>
