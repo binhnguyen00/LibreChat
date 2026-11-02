@@ -123,12 +123,11 @@ function Login() {
         />
       )}
       {startupConfig?.registrationEnabled === true && (
-        <p className="text-text-secondary my-4 text-center text-sm font-light">
-          {' '}
+        <p className="mt-4 text-center text-xs text-gray-500 font-normal">
           {localize('com_auth_no_account')}{' '}
           <a
             href={registerPage()}
-            className="text-accent-primary hover:text-accent-primary-hover hover:decoration-accent-primary-hover focus:text-accent-primary-hover focus:decoration-accent-primary-hover inline-flex p-1 text-sm font-medium underline decoration-transparent transition-all duration-200"
+            className="text-[#0061af] hover:text-[#004e8c] hover:underline inline-flex p-0.5 text-xs font-medium"
           >
             {localize('com_auth_sign_up')}
           </a>

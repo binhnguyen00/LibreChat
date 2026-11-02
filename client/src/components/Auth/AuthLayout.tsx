@@ -87,6 +87,91 @@ function AuthLayout({
     return null;
   };
 
+  if (isLogin) {
+    return (
+      <div className="relative flex min-h-screen w-full flex-col bg-white">
+        <Banner />
+        <div className="flex min-h-screen w-full flex-col lg:flex-row">
+          {/* Cột trái: Cổng truy cập nội bộ & Form đăng nhập */}
+          <div className="flex w-full flex-col justify-between bg-white p-6 sm:p-10 lg:w-1/2 lg:p-12 xl:p-16">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-gray-600">Cổng truy cập nội bộ</span>
+              <div className="lg:hidden">
+                <img
+                  src="assets/MobiFone_logo.svg"
+                  alt={localize('com_ui_logo', { 0: startupConfig?.appTitle ?? 'MobiFone' })}
+                  className="h-5 w-auto object-contain"
+                />
+              </div>
+            </div>
+
+            <div className="mx-auto my-auto w-full max-w-[420px] py-8">
+              <div className="mb-6">
+                <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                  {localize('com_auth_sign_in')}
+                </h1>
+                <p className="mt-2 text-sm text-gray-500">
+                  Sử dụng tài khoản được cấp để truy cập hệ thống.
+                </p>
+              </div>
+
+              <DisplayError />
+
+              {children}
+
+              {showsSocialLogin && (
+                <div className="mt-4">
+                  <SocialLoginRender startupConfig={startupConfig} showPasskey={isLogin} />
+                </div>
+              )}
+              {statesConsentBelowProviders && <LegalConsent startupConfig={startupConfig} />}
+              {!statesConsent && (
+                <div className="sr-only">
+                  <Footer startupConfig={startupConfig} />
+                </div>
+              )}
+            </div>
+
+            <div className="pt-4 text-xs text-gray-500">
+              © 2026 MobiFone Hải Phòng
+            </div>
+          </div>
+
+          {/* Cột phải: Khai thác CSDL dùng chung MobiFone Hải Phòng */}
+          <div className="relative hidden min-h-screen select-none flex-col justify-between bg-[#0b2342] p-12 text-white lg:flex lg:w-1/2 xl:p-20">
+            <div>
+              <BlinkAnimation active={isFetching}>
+                <div className="inline-flex items-center rounded-lg bg-white px-5 py-2.5 shadow-sm">
+                  <img
+                    src="assets/MobiFone_logo.svg"
+                    alt={localize('com_ui_logo', { 0: startupConfig?.appTitle ?? 'MobiFone' })}
+                    className="h-6 w-auto object-contain"
+                  />
+                </div>
+              </BlinkAnimation>
+            </div>
+
+            <div className="my-auto max-w-xl">
+              <div className="mb-6 h-1 w-12 rounded-full bg-[#d6212d]" />
+              <h2 className="text-3xl font-bold leading-tight tracking-tight text-white xl:text-[40px]">
+                Khai thác CSDL dùng chung MobiFone Hải Phòng
+              </h2>
+              <p className="mt-5 text-base font-normal leading-relaxed text-slate-300 xl:text-lg">
+                Nền tảng dữ liệu tập trung phục vụ báo cáo, phân tích và điều hành của đơn vị.
+              </p>
+            </div>
+
+            <div>
+              <p className="text-xs font-normal text-slate-400 xl:text-sm">
+                Chỉ dành cho người dùng được cấp quyền. Mọi truy cập đều được ghi nhận.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-surface-primary relative flex min-h-screen flex-col">
       <Banner />

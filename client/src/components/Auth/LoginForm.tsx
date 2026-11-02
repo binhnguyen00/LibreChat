@@ -101,63 +101,81 @@ const LoginForm: React.FC<TLoginFormProps> = ({ onSubmit, startupConfig, error, 
         onSubmit={handleSubmit((data) => onSubmit(data))}
       >
         <div className="mb-4">
-          <div className="relative">
-            <Input
-              colorTransition
-              type="text"
-              id="email"
-              autoComplete={emailAutoComplete}
-              aria-label={localize('com_auth_email')}
-              {...register('email', {
-                required: localize('com_auth_email_required'),
-                maxLength: { value: 120, message: localize('com_auth_email_max_length') },
-                validate: useUsernameLogin
-                  ? undefined
-                  : (value) => validateEmail(value, localize('com_auth_email_pattern')),
-              })}
-              aria-invalid={!!errors.email}
-              variant="floating"
-              placeholder=" "
-            />
-            <label htmlFor="email" className={floatingLabel}>
-              {useUsernameLogin
-                ? localize('com_auth_username').replace(/ \(.*$/, '')
-                : localize('com_auth_email_address')}
-            </label>
-          </div>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
+            {useUsernameLogin
+              ? localize('com_auth_username').replace(/ \(.*$/, '')
+              : 'Tên đăng nhập'}
+          </label>
+          <Input
+            colorTransition
+            type="text"
+            id="email"
+            autoComplete={emailAutoComplete}
+            aria-label={localize('com_auth_email')}
+            {...register('email', {
+              required: localize('com_auth_email_required'),
+              maxLength: { value: 120, message: localize('com_auth_email_max_length') },
+              validate: useUsernameLogin
+                ? undefined
+                : (value) => validateEmail(value, localize('com_auth_email_pattern')),
+            })}
+            aria-invalid={!!errors.email}
+            variant="default"
+            placeholder="Nhập tên đăng nhập"
+            className="h-theme-auth-field w-full h-11 rounded-md border !border-gray-300 px-3.5 py-2 text-sm !text-gray-900 placeholder:!text-gray-400 focus:!border-[#0b2342] focus:!ring-1 focus:!ring-[#0b2342] focus:outline-none transition-colors !bg-white shadow-none"
+          />
           {renderError('email')}
         </div>
-        <div className="mb-2">
-          <div className="relative">
-            <SecretInput
-              colorTransition
-              id="password"
-              autoComplete="current-password"
-              aria-label={localize('com_auth_password')}
-              {...register('password', {
-                required: localize('com_auth_password_required'),
-                minLength: {
-                  value: startupConfig?.minPasswordLength || 8,
-                  message: localize('com_auth_password_min_length'),
-                },
-                maxLength: { value: 128, message: localize('com_auth_password_max_length') },
-              })}
-              aria-invalid={!!errors.password}
-              variant="floating"
-              placeholder=" "
-              label={localize('com_auth_password')}
-            />
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-1.5">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              {localize('com_auth_password')}
+            </label>
+            {startupConfig.passwordResetEnabled && (
+              <a
+                href="/forgot-password"
+                className="text-sm font-normal text-[#0061af] hover:text-[#004e8c] hover:underline transition-colors"
+              >
+                {localize('com_auth_password_forgot')}
+              </a>
+            )}
           </div>
+          <SecretInput
+            colorTransition
+            id="password"
+            autoComplete="current-password"
+            aria-label={localize('com_auth_password')}
+            {...register('password', {
+              required: localize('com_auth_password_required'),
+              minLength: {
+                value: startupConfig?.minPasswordLength || 8,
+                message: localize('com_auth_password_min_length'),
+              },
+              maxLength: { value: 128, message: localize('com_auth_password_max_length') },
+            })}
+            aria-invalid={!!errors.password}
+            variant="default"
+            placeholder="Nhập mật khẩu"
+            buttonClassName="text-gray-400 hover:text-gray-600 hover:bg-transparent"
+            className="h-theme-auth-field w-full h-11 rounded-md border !border-gray-300 px-3.5 py-2 text-sm !text-gray-900 placeholder:!text-gray-400 focus:!border-[#0b2342] focus:!ring-1 focus:!ring-[#0b2342] focus:outline-none transition-colors !bg-white shadow-none"
+          />
           {renderError('password')}
         </div>
-        {startupConfig.passwordResetEnabled && (
-          <a
-            href="/forgot-password"
-            className="text-accent-primary hover:text-accent-primary-hover hover:decoration-accent-primary-hover focus:text-accent-primary-hover focus:decoration-accent-primary-hover inline-flex p-1 text-sm font-medium underline decoration-transparent transition-all duration-200"
+
+        <div className="mb-5 flex items-center">
+          <input
+            id="remember-me"
+            name="remember-me"
+            type="checkbox"
+            className="h-4 w-4 rounded border-gray-300 text-[#0b2342] focus:ring-[#0b2342] cursor-pointer"
+          />
+          <label
+            htmlFor="remember-me"
+            className="ms-2 block text-sm text-gray-600 select-none cursor-pointer"
           >
-            {localize('com_auth_password_forgot')}
-          </a>
-        )}
+            Ghi nhớ đăng nhập trên thiết bị này
+          </label>
+        </div>
 
         {requireCaptcha && (
           <div className="my-4 flex justify-center">
@@ -183,11 +201,15 @@ const LoginForm: React.FC<TLoginFormProps> = ({ onSubmit, startupConfig, error, 
             variant="submit"
             shape="soft"
             size="auth"
-            className="w-full"
+            className="w-full h-11 !bg-[#0b2342] hover:!bg-[#133563] !text-white !font-medium !text-base !rounded-md flex items-center justify-center transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-[#0b2342] focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {isSubmitting ? <Spinner /> : localize('com_auth_continue')}
+            {isSubmitting ? <Spinner /> : localize('com_auth_sign_in')}
           </Button>
         </div>
+
+        <p className="mt-6 text-xs text-gray-500 leading-relaxed text-center sm:text-left">
+          Chưa có tài khoản hoặc cần cấp lại quyền truy cập? Vui lòng liên hệ quản trị hệ thống của đơn vị.
+        </p>
       </form>
     </>
   );
