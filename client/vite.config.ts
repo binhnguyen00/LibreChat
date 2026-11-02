@@ -105,7 +105,7 @@ export default defineConfig(({ command }) => ({
       workbox: {
         globPatterns: [
           '**/*.{js,css,html}',
-          'assets/favicon*.png',
+          'assets/favicon*.{png,ico}',
           'assets/icon-*.png',
           'assets/apple-touch-icon*.png',
           /** `manifest.webmanifest` is not listed: vite-plugin-pwa always appends it as an
